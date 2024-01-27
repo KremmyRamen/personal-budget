@@ -44,12 +44,7 @@ div.hero {
     background-repeat: no-repeat;
     background-position: center bottom;
     padding-top: 40px;
-}
-
-div.hero h1,
-div.hero h2 {
-    text-align: left;
-    margin: 0;
+    text-align: center;
 }
 
 div.hero h1 {
@@ -96,7 +91,7 @@ footer {
 }
 
 main article {
-    text-align: left;
+    text-align: justify;
 }
 
 @media screen and (min-width: 768px) {
