@@ -7,6 +7,16 @@
     <!-- SEO Change: Added more descriptive meta tags -->
     <meta name="description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
     <meta name="keywords" content="app, free, budget, finance, personal budget, budget management, financial plan">
+    <!-- SEO Change: Added Open Graph meta tags for better social media sharing -->
+    <meta property="og:title" content="Personal Budget">
+    <meta property="og:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
+    <meta property="og:image" content="path/to/your/image.jpg">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <!-- SEO Change: Added Twitter Card meta tags for better Twitter sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Personal Budget">
+    <meta name="twitter:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
+    <meta name="twitter:image" content="path/to/your/image.jpg">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
 </head>
@@ -20,7 +30,8 @@
             <li><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/login.html">Login</a></li>
-            <li><a href="https://google.com" rel="external">Google</a></li> <!-- SEO Change: Added rel="external" for external links -->
+            <!-- SEO Change: Added "noopener" attribute for security on external links -->
+            <li><a href="https://google.com" rel="external noopener">Google</a></li>
         </ul>
     </nav>
 
@@ -79,10 +90,10 @@
                 </p>
             </article>
     
-            <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
-            <section>
+            <!-- A11y Change: Added aria-labelledby attribute for improved screen reader support -->
+            <section aria-labelledby="duplicate-heading">
                 <header>
-                    <h2>Stay on track</h2>
+                    <h2 id="duplicate-heading">Stay on track</h2>
                 </header>
                 <p>
                     Do you know where you are spending your money? If you really stop to track it down,
@@ -91,20 +102,20 @@
                 </p>
             </section>
     
-            <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
-            <section>
+            <!-- A11y Change: Added aria-labelledby attribute for improved screen reader support -->
+            <section aria-labelledby="duplicate-heading">
                 <header>
-                    <h2>Alerts</h2>
+                    <h2 id="duplicate-heading">Alerts</h2>
                 </header>
                 <p>
                     What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
                 </p>
             </section>
     
-            <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
-            <section>
+            <!-- A11y Change: Added aria-labelledby attribute for improved screen reader support -->
+            <section aria-labelledby="duplicate-heading">
                 <header>
-                    <h2>Results</h2>
+                    <h2 id="duplicate-heading">Results</h2>
                 </header>
                 <p>
                     People who stick to a financial plan, budgeting every expense, get out of debt faster!
