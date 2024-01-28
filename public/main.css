@@ -44,7 +44,7 @@ div.hero {
     background-repeat: no-repeat;
     background-position: center bottom;
     padding-top: 40px;
-    text-align: center;
+    text-align: left; /* Align text to the left */
 }
 
 div.hero h1 {
@@ -65,8 +65,23 @@ main {
     gap: 20px;
 }
 
+/* Added styles for the left and right columns */
 .page-area {
-    max-width: 768px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-column {
+    width: 45%; /* Adjust the width as needed */
+}
+
+.right-column {
+    width: 45%; /* Adjust the width as needed */
+}
+
+.left-column,
+.right-column {
+    box-sizing: border-box;
 }
 
 footer {

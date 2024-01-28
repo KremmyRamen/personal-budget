@@ -36,20 +36,19 @@
     </nav>
 
     <div class="hero">
-        <!-- Semantic HTML Change: Changed <h1> to <header> for the main heading -->
-        <header>
-            <h1>Personal Budget</h1>
-        </header>
-        <h2>A personal-budget management app</h2>
+        <!-- Semantic HTML Change: Changed <header> to <div> for styling purposes -->
+        <div class="header-container">
+            <header>
+                <h1>Personal Budget</h1>
+            </header>
+            <h2>A personal-budget management app</h2>
+        </div>
     </div>
 
     <main class="center" id="main">
-
         <div class="page-area">
-
-            <div class="column">
+            <div class="left-column">
                 <article>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
                     <header>
                         <h1>Stay on track</h1>
                     </header>
@@ -59,18 +58,6 @@
                         app will help you with that!
                     </p>
                 </article>
-    
-                <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
-                <section>
-                    <header>
-                        <!-- Semantic HTML Change: Changed <h1> to <h2> for a subheading -->
-                        <h2>Alerts</h2>
-                    </header>
-                    <p>
-                        What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
-                    </p>
-                </section>
-    
                 <article>
                     <header>
                         <h1>Results</h1>
@@ -81,7 +68,6 @@
                         because they know it is all good and accounted for.
                     </p>
                 </article>
-    
                 <article>
                     <header>
                         <h1>Free</h1>
@@ -92,8 +78,15 @@
                 </article>
             </div>
 
-            <div class="column">
-                <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
+            <div class="right-column">
+                <section>
+                    <header>
+                        <h2>Alerts</h2>
+                    </header>
+                    <p>
+                        What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                    </p>
+                </section>
                 <section>
                     <header>
                         <h2>Stay on track</h2>
@@ -104,18 +97,6 @@
                         app will help you with that!
                     </p>
                 </section>
-    
-                <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
-                <section>
-                    <header>
-                        <h2>Alerts</h2>
-                    </header>
-                    <p>
-                        What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
-                    </p>
-                </section>
-    
-                <!-- Semantic HTML Change: Changed <article> to <section> for a more specific section -->
                 <section>
                     <header>
                         <h2>Results</h2>
@@ -126,7 +107,6 @@
                         because they know it is all good and accounted for.
                     </p>
                 </section>
-    
                 <article>
                     <header>
                         <h1>Chart</h1>
@@ -136,9 +116,7 @@
                     </p>
                 </article>
             </div>
-
         </div>
-
     </main>
 
     <footer class="bottom">
