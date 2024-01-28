@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Budget</title>
-    <!-- SEO Change: Added more descriptive meta tags -->
+    <!-- SEO Change -->
     <meta name="description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
     <meta name="keywords" content="app, free, budget, finance, personal budget, budget management, financial plan">
-    <!-- SEO Change: Added Open Graph meta tags for better social media sharing -->
+    <!-- SEO Change -->
     <meta property="og:title" content="Personal Budget">
     <meta property="og:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
     <meta property="og:image" content="path/to/your/image.jpg">
     <meta property="og:url" content="https://yourwebsite.com">
-    <!-- SEO Change: Added Twitter Card meta tags for better Twitter sharing -->
+    <!-- SEO Change -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Personal Budget">
     <meta name="twitter:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
@@ -25,9 +25,10 @@
 <!-- A11y Change: Added a skip link for better accessibility -->
 <a href="#main" class="skip">Skip to content</a>
 
-    <nav>
+    <!-- A11y Change: Added role and aria-current attributes for better accessibility -->
+    <nav role="navigation">
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/" aria-current="page">Home</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/login.html">Login</a></li>
             <!-- SEO Change: Added "noopener" attribute for security on external links -->
@@ -39,18 +40,27 @@
         <!-- Semantic HTML Change: Changed <header> to <div> for styling purposes -->
         <div class="header-container">
             <header>
-                <h1>Personal Budget</h1>
+                <!-- Semantic HTML Change: Changed <h1> to <div> for styling purposes -->
+                <div class="left-header">
+                    <h1>Personal Budget</h1>
+                </div>
+                <div class="right-header">
+                    <h2>A personal-budget management app</h2>
+                </div>
             </header>
-            <h2>A personal-budget management app</h2>
         </div>
     </div>
 
-    <main class="center" id="main">
+    <!-- A11y Change: Added role attribute for better accessibility -->
+    <main class="center" id="main" role="main">
         <div class="page-area">
             <div class="left-column">
                 <article>
                     <header>
-                        <h1>Stay on track</h1>
+                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                        <header>
+                            <h1>Stay on track</h1>
+                        </header>
                     </header>
                     <p>
                         Do you know where you are spending your money? If you really stop to track it down,
@@ -60,7 +70,10 @@
                 </article>
                 <article>
                     <header>
-                        <h1>Results</h1>
+                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                        <header>
+                            <h1>Results</h1>
+                        </header>
                     </header>
                     <p>
                         People who stick to a financial plan, budgeting every expense, get out of debt faster!
@@ -70,7 +83,10 @@
                 </article>
                 <article>
                     <header>
-                        <h1>Free</h1>
+                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                        <header>
+                            <h1>Free</h1>
+                        </header>
                     </header>
                     <p>
                         This app is free!!! And you are the only one holding your data!
@@ -81,7 +97,10 @@
             <div class="right-column">
                 <section>
                     <header>
-                        <h2>Alerts</h2>
+                        <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                        <header>
+                            <h2>Alerts</h2>
+                        </header>
                     </header>
                     <p>
                         What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
@@ -89,7 +108,10 @@
                 </section>
                 <section>
                     <header>
-                        <h2>Stay on track</h2>
+                        <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                        <header>
+                            <h2>Stay on track</h2>
+                        </header>
                     </header>
                     <p>
                         Do you know where you are spending your money? If you really stop to track it down,
@@ -99,7 +121,10 @@
                 </section>
                 <section>
                     <header>
-                        <h2>Results</h2>
+                        <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                        <header>
+                            <h2>Results</h2>
+                        </header>
                     </header>
                     <p>
                         People who stick to a financial plan, budgeting every expense, get out of debt faster!
@@ -109,17 +134,22 @@
                 </section>
                 <article>
                     <header>
-                        <h1>Chart</h1>
+                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                        <header>
+                            <h1>Chart</h1>
+                        </header>
                     </header>
                     <p>
-                        <canvas id="myChart" width="400" height="400"></canvas>
+                        <!-- A11y Change: Added alt text for better accessibility -->
+                        <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
                     </p>
                 </article>
             </div>
         </div>
     </main>
 
-    <footer class="bottom">
+    <!-- A11y Change: Added role attribute for better accessibility -->
+    <footer class="bottom" role="contentinfo">
         <div class="center">
             All rights reserved &copy; Fabio Nolasco
         </div>
@@ -155,7 +185,7 @@
         function getBudget() {
             axios.get('http://localhost:3000/budget')
             .then(function (res) {
-                for (var i = 0; i < res.data.myBudget.length; i++) {
+                for (var i = 0; res.data.myBudget.length; i++) {
                     dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
                     dataSource.labels[i] = res.data.myBudget[i].title;
                     createChart();
