@@ -9,7 +9,7 @@ const port = 3000;
 
 app.use(cors());
 
-const dataPath = path.join(__dirname, 'test.json');
+const dataPath = path.join(__dirname, 'new.json');
 
 app.use('/', express.static('public'));
 
