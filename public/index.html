@@ -201,6 +201,59 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
+    
+    var svg = d3.select("body")
+        .append("svg")
+        .append("g")
+    
+    svg.append("g")
+        .attr("class", "slices");
+    svg.append("g")
+        .attr("class", "labels");
+    svg.append("g")
+        .attr("class", "lines");
+    
+    var width = 960,
+        height = 450,
+        radius = Math.min(width, height) / 2;
+    
+    var pie = d3.layout.pie()
+        .sort(null)
+        .value(function(d) {
+            return d.value;
+        });
+    
+    var arc = d3.svg.arc()
+        .outerRadius(radius * 0.8)
+        .innerRadius(radius * 0.4);
+    
+    var outerArc = d3.svg.arc()
+        .innerRadius(radius * 0.9)
+        .outerRadius(radius * 0.9);
+    
+    svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    
+    var key = function(d){ return d.data.label; };
+    
+    var color = d3.scale.ordinal()
+        .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
+        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    
+    function randomData (){
+        var labels = color.domain();
+        return labels.map(function(label){
+            return { label: label, value: Math.random() }
+        });
+    }
+    
+    change(randomData());
+    
+    d3.select(".randomize")
+        .on("click", function(){
+            change(randomData());
+            updateD3Chart(randomData());
+        });
+    
         // Existing Chart.js code...
         
         // D3.js Chart
