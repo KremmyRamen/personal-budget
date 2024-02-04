@@ -244,6 +244,7 @@
     axios.get('http://localhost:3000/budget')
         .then(function (response) {
             var data = response.data.myBudget;
+            console.log(data); // Log the data to the console
             change(data);
         })
         .catch(function (error) {
@@ -272,5 +273,6 @@
         slice.exit().remove();
     }
 </script>
+
 </body>
 </html>
