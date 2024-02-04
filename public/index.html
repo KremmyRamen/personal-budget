@@ -252,13 +252,27 @@
         var slice = svg.select(".slices").selectAll("path.slice")
             .data(pie(data), key);
 
-        // Rest of the change function code...
+        slice.enter()
+            .insert("path")
+            .style("fill", function(d) { return color(d.data.label); })
+            .attr("class", "slice");
+
+        slice.transition().duration(1000)
+            .attrTween("d", function(d) {
+                this._current = this._current || d;
+                var interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function(t) {
+                    return arc(interpolate(t));
+                };
+            });
+
+        slice.exit().remove();
     }
 
-    // Call randomData and updateD3Chart functions as needed...
+    // Call randomData and change functions as needed...
+    change(randomData());
 
 </script>
-
-
 </body>
 </html>
