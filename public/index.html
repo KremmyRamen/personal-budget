@@ -238,15 +238,17 @@
     var key = function(d) { return d.data.label; };
 
     var color = d3.scale.ordinal()
-        .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
         .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-    function randomData() {
-        var labels = color.domain();
-        return labels.map(function(label) {
-            return { label: label, value: Math.random() }
+    // Fetch data from the server using Axios
+    axios.get('http://localhost:3000/budget')
+        .then(function (response) {
+            var data = response.data.myBudget;
+            change(data);
+        })
+        .catch(function (error) {
+            console.error(error);
         });
-    }
 
     function change(data) {
         var slice = svg.select(".slices").selectAll("path.slice")
@@ -254,7 +256,7 @@
 
         slice.enter()
             .insert("path")
-            .style("fill", function(d) { return color(d.data.label); })
+            .style("fill", function(d) { return color(d.data.title); })
             .attr("class", "slice");
 
         slice.transition().duration(1000)
@@ -269,10 +271,6 @@
 
         slice.exit().remove();
     }
-
-    // Call randomData and change functions as needed...
-    change(randomData());
-
 </script>
 </body>
 </html>
