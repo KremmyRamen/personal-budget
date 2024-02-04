@@ -2,12 +2,37 @@
 
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 const port = 3000;
 
 app.use(cors());
 
-const budget = {
+const dataPath = path.join(__dirname, 'test.json');
+
+app.use('/', express.static('public'));
+
+app.get('/hello', (req, res) => {
+    res.send('Hello, this is the root path!');
+});
+
+app.get('/budget', (req, res) => {
+    // Read the JSON file
+    fs.readFile(dataPath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        const budgetData = JSON.parse(data);
+        res.json(budgetData);
+    });
+});
+
+// Commented-out original data structure
+/* const budget = {
     myBudget: [
         {
             title: 'Eat out',
@@ -22,17 +47,7 @@ const budget = {
             budget: 110
         },
     ]
-};
-
-app.use('/', express.static('public'));
-
-app.get('/hello', (req, res) => {
-    res.send('Hello, this is the root path!');
-});
-
-app.get('/budget', (req, res) => {
-    res.json(budget);
-});
+}; */
 
 app.listen(port, () => {
     console.log(`API served at http://localhost:${port}`);
