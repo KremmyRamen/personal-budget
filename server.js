@@ -31,23 +31,7 @@ app.get('/budget', (req, res) => {
     });
 });
 
-// Commented-out original data structure
-/* const budget = {
-    myBudget: [
-        {
-            title: 'Eat out',
-            budget: 25  
-        },
-        {
-            title: 'Rent',
-            budget: 275
-        },
-        {
-            title: 'Grocery',
-            budget: 110
-        },
-    ]
-}; */
+
 
 app.listen(port, () => {
     console.log(`API served at http://localhost:${port}`);
