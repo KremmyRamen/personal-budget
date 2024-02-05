@@ -14,18 +14,15 @@
             position: relative;
         }
 
-        .d3js-chart {
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
             margin-top: 20px;
         }
 
-        canvas {
-            width: 100%;
-            height: 100%;
-        }
-
-        svg {
-            width: 100%;
-            height: 100%;
+        canvas, svg {
+            width: 400px;
+            height: 400px;
         }
     </style>
 </head>
@@ -72,24 +69,49 @@
                 <header>
                     <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
                     <header>
-                        <h1>Chart</h1>
+                        <h1>Stay on track</h1>
                     </header>
                 </header>
                 <p>
-                    <!-- A11y Change: Added alt text for better accessibility -->
-                    <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
+                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                    Also, they live happier lives... since they spend without guilt or fear... 
+                    because they know it is all good and accounted for.
                 </p>
             </article>
-
-            <!-- D3.js Chart -->
-            <section class="d3js-chart">
+            <article>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                    <header>
+                        <h1>Free</h1>
+                    </header>
+                </header>
+                <p>
+                    This app is free!!! And you are the only one holding your data!
+                </p>
+            </article>
+            <section>
                 <header>
                     <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
                     <header>
-                        <h2>D3.js Chart</h2>
+                        <h2>Alerts</h2>
                     </header>
                 </header>
-                <svg id="d3jsChart" width="400" height="400" aria-label="D3.js Chart depicting budget distribution"></svg>
+                <p>
+                    What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                </p>
+            </section>
+            <section>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                    <header>
+                        <h2>Results</h2>
+                    </header>
+                </header>
+                <p>
+                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                    Also, they live happier lives... since they spend without guilt or fear... 
+                    because they know it is all good and accounted for.
+                </p>
             </section>
         </div>
     </div>
@@ -114,7 +136,11 @@
             const budgetData = response.data.myBudget;
 
             // Chart.js initialization
-            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx = document.createElement('canvas').getContext('2d');
+            ctx.canvas.width = 400;
+            ctx.canvas.height = 400;
+            document.querySelector('.chart-container').appendChild(ctx.canvas);
+
             var myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
@@ -149,36 +175,33 @@
             });
 
             // D3.js initialization
-            const svg = d3.select('#d3jsChart');
-            const width = +svg.attr('width');
-            const height = +svg.attr('height');
-            const radius = Math.min(width, height) / 2;
+            var svg = d3.select('.chart-container')
+                .append('svg')
+                .attr('width', 400)
+                .attr('height', 400);
 
-            const pie = d3.pie()
-                .sort(null)
+            var color = d3.scaleOrdinal()
+                .domain(budgetData.map(item => item.title))
+                .range(d3.schemeSet2);
+
+            var pie = d3.pie()
                 .value(d => d.budget);
 
-            const arc = d3.arc()
-                .innerRadius(0)
-                .outerRadius(radius);
+            var path = d3.arc()
+                .outerRadius(200)
+                .innerRadius(0);
 
-            const color = d3.scaleOrdinal()
-                .domain(budgetData.map(d => d.title))
-                .range(d3.schemeCategory10);
-
-            const arcs = svg.selectAll('arc')
+            var arc = svg.selectAll('arc')
                 .data(pie(budgetData))
                 .enter()
                 .append('g')
-                .attr('class', 'arc')
-                .attr('transform', `translate(${width / 2},${height / 2})`);
+                .attr('class', 'arc');
 
-            arcs.append('path')
-                .attr('d', arc)
+            arc.append('path')
+                .attr('d', path)
                 .attr('fill', d => color(d.data.title));
 
-            // Legend
-            const legend = svg.selectAll('.legend')
+            var legend = svg.selectAll('.legend')
                 .data(color.domain())
                 .enter()
                 .append('g')
@@ -186,13 +209,13 @@
                 .attr('transform', (d, i) => `translate(0,${i * 20})`);
 
             legend.append('rect')
-                .attr('x', width - 18)
+                .attr('x', 200)
                 .attr('width', 18)
                 .attr('height', 18)
                 .style('fill', color);
 
             legend.append('text')
-                .attr('x', width - 24)
+                .attr('x', 190)
                 .attr('y', 9)
                 .attr('dy', '.35em')
                 .style('text-anchor', 'end')
