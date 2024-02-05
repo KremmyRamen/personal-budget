@@ -1,15 +1,16 @@
-// Budget API
+app.use('/', express.static('public'));
 
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 const app = express();
 const port = 3000;
+const fs = require('fs');
 
 app.use(cors());
 
-const dataPath = path.join(__dirname, 'new.json');
+// Read data from the JSON file
+const rawData = fs.readFileSync('test.json');
+const budget = JSON.parse(rawData);
 
 app.use('/', express.static('public'));
 
@@ -18,17 +19,7 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('/budget', (req, res) => {
-    // Read the JSON file
-    fs.readFile(dataPath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        const budgetData = JSON.parse(data);
-        res.json(budgetData);
-    });
+    res.json(budget);
 });
 
 app.listen(port, () => {

@@ -4,19 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Budget</title>
-    <!-- SEO Change -->
-    <meta name="description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
-    <meta name="keywords" content="app, free, budget, finance, personal budget, budget management, financial plan">
-    <!-- SEO Change -->
-    <meta property="og:title" content="Personal Budget">
-    <meta property="og:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
-    <meta property="og:image" content="path/to/your/image.jpg">
-    <meta property="og:url" content="https://yourwebsite.com">
-    <!-- SEO Change -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Personal Budget">
-    <meta name="twitter:description" content="Manage your personal budget with this free app. Stay on track, receive alerts, and track your expenses.">
-    <meta name="twitter:image" content="path/to/your/image.jpg">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
     <style>
@@ -31,20 +18,9 @@
             margin-top: 20px;
         }
 
-        svg {
+        canvas {
             width: 100%;
             height: 100%;
-        }
-
-        path.slice {
-            stroke-width: 2px;
-        }
-
-        polyline {
-            opacity: .3;
-            stroke: black;
-            stroke-width: 2px;
-            fill: none;
         }
     </style>
 </head>
@@ -83,83 +59,10 @@
 <main class="center" id="main" role="main">
     <div class="page-area">
         <div class="left-column">
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Stay on track</h1>
-                    </header>
-                </header>
-                <p>
-                    Do you know where you are spending your money? If you really stop to track it down,
-                    you would get surprised! Proper budget management depends on real data... and this
-                    app will help you with that!
-                </p>
-            </article>
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Results</h1>
-                    </header>
-                </header>
-                <p>
-                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear... 
-                    because they know it is all good and accounted for.
-                </p>
-            </article>
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Free</h1>
-                    </header>
-                </header>
-                <p>
-                    This app is free!!! And you are the only one holding your data!
-                </p>
-            </article>
+            <!-- Content in the left column remains unchanged -->
         </div>
 
         <div class="right-column">
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Alerts</h2>
-                    </header>
-                </header>
-                <p>
-                    What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
-                </p>
-            </section>
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Stay on track</h2>
-                    </header>
-                </header>
-                <p>
-                    Do you know where you are spending your money? If you really stop to track it down,
-                    you would get surprised! Proper budget management depends on real data... and this
-                    app will help you with that!
-                </p>
-            </section>
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Results</h2>
-                    </header>
-                </header>
-                <p>
-                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear... 
-                    because they know it is all good and accounted for.
-                </p>
-            </section>
             <article>
                 <header>
                     <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
@@ -183,14 +86,55 @@
     </div>
 </footer>
 
-<!-- D3.js script -->
-<script src="http://d3js.org/d3.v3.min.js"></script>
 <!-- Additional Chart.js and Axios scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
 
 <script>
-    // Your existing D3.js script without the new chart
+    // Load data from the server
+    axios.get('http://localhost:3000/budget')
+        .then(response => {
+            const budgetData = response.data.myBudget;
+
+            // Chart.js initialization
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: budgetData.map(item => item.title),
+                    datasets: [{
+                        data: budgetData.map(item => item.budget),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 205, 86, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 </script>
+
 </body>
 </html>
