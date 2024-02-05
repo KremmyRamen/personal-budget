@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,136 +24,192 @@
         }
     </style>
 </head>
-
 <body>
 
-    <!-- A11y Change: Added a skip link for better accessibility -->
-    <a href="#main" class="skip">Skip to content</a>
+<!-- A11y Change: Added a skip link for better accessibility -->
+<a href="#main" class="skip">Skip to content</a>
 
-    <!-- A11y Change: Added role and aria-current attributes for better accessibility -->
-    <nav role="navigation">
-        <ul>
-            <li><a href="/" aria-current="page">Home</a></li>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/login.html">Login</a></li>
-            <!-- SEO Change: Added "noopener" attribute for security on external links -->
-            <li><a href="https://google.com" rel="external noopener">Google</a></li>
-        </ul>
-    </nav>
+<!-- A11y Change: Added role and aria-current attributes for better accessibility -->
+<nav role="navigation">
+    <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/login.html">Login</a></li>
+        <!-- SEO Change: Added "noopener" attribute for security on external links -->
+        <li><a href="https://google.com" rel="external noopener">Google</a></li>
+    </ul>
+</nav>
 
-    <div class="hero">
-        <!-- Semantic HTML Change: Changed <header> to <div> for styling purposes -->
-        <div class="header-container">
-            <header>
-                <!-- Semantic HTML Change: Changed <h1> to <div> for styling purposes -->
-                <div class="left-header">
-                    <h1>Personal Budget</h1>
-                </div>
-                <div class="right-header">
-                    <h2>A personal-budget management app</h2>
-                </div>
-            </header>
+<div class="hero">
+    <!-- Semantic HTML Change: Changed <header> to <div> for styling purposes -->
+    <div class="header-container">
+        <header>
+            <!-- Semantic HTML Change: Changed <h1> to <div> for styling purposes -->
+            <div class="left-header">
+                <h1>Personal Budget</h1>
+            </div>
+            <div class="right-header">
+                <h2>A personal-budget management app</h2>
+            </div>
+        </header>
+    </div>
+</div>
+
+<!-- A11y Change: Added role attribute for better accessibility -->
+<main class="center" id="main" role="main">
+    <div class="page-area">
+        <div class="left-column">
+            <article>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                    <header>
+                        <h1>Stay on track</h1>
+                    </header>
+                </header>
+                <p>
+                    Do you know where you are spending your money? If you really stop to track it down,
+                    you would get surprised! Proper budget management depends on real data... and this
+                    app will help you with that!
+                </p>
+            </article>
+            <article>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                    <header>
+                        <h1>Results</h1>
+                    </header>
+                </header>
+                <p>
+                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                    Also, they to live happier lives... since they expend without guilt or fear... 
+                    because they know it is all good and accounted for.
+                </p>
+            </article>
+            <article>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                    <header>
+                        <h1>Free</h1>
+                    </header>
+                </header>
+                <p>
+                    This app is free!!! And you are the only one holding your data!
+                </p>
+            </article>
+        </div>
+
+        <div class="right-column">
+            <section>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                    <header>
+                        <h2>Alerts</h2>
+                    </header>
+                </header>
+                <p>
+                    What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                </p>
+            </section>
+            <section>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                    <header>
+                        <h2>Stay on track</h2>
+                    </header>
+                </header>
+                <p>
+                    Do you know where you are spending your money? If you really stop to track it down,
+                    you would get surprised! Proper budget management depends on real data... and this
+                    app will help you with that!
+                </p>
+            </section>
+            <section>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                    <header>
+                        <h2>Results</h2>
+                    </header>
+                </header>
+                <p>
+                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                    Also, they to live happier lives... since they expend without guilt or fear... 
+                    because they know it is all good and accounted for.
+                </p>
+            </section>
+            <article>
+                <header>
+                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
+                    <header>
+                        <h1>Chart</h1>
+                    </header>
+                </header>
+                <p>
+                    <!-- A11y Change: Added alt text for better accessibility -->
+                    <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
+                </p>
+            </article>
         </div>
     </div>
+</main>
 
-    <!-- A11y Change: Added role attribute for better accessibility -->
-    <main class="center" id="main" role="main">
-        <div class="page-area">
-            <div class="left-column">
-                <!-- Content in the left column remains unchanged -->
-            </div>
+<!-- A11y Change: Added role attribute for better accessibility -->
+<footer class="bottom" role="contentinfo">
+    <div class="center">
+        All rights reserved &copy; Fabio Nolasco
+    </div>
+</footer>
 
-            <div class="right-column">
-                <article>
-                    <header>
-                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                        <header>
-                            <h1>Stay on track</h1>
-                        </header>
-                    </header>
-                    <p>
-                        Do you know where you are spending your money? If you really stop to track it down,
-                        you would get surprised! Proper budget management depends on real data... and this
-                        app will help you with that!
-                    </p>
-                </article>
-                <!-- Add similar articles for other subheadings -->
+<!-- Additional Chart.js and Axios scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
+    integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
+    crossorigin="anonymous"></script>
 
-                <article>
-                    <header>
-                        <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                        <header>
-                            <h1>Chart</h1>
-                        </header>
-                    </header>
-                    <p>
-                        <!-- A11y Change: Added alt text for better accessibility -->
-                        <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
-                    </p>
-                </article>
-            </div>
-        </div>
-    </main>
+<script>
+    // Load data from the server
+    axios.get('http://localhost:3000/budget')
+        .then(response => {
+            const budgetData = response.data.myBudget;
 
-    <!-- A11y Change: Added role attribute for better accessibility -->
-    <footer class="bottom" role="contentinfo">
-        <div class="center">
-            All rights reserved &copy; Fabio Nolasco
-        </div>
-    </footer>
-
-    <!-- Additional Chart.js and Axios scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
-        integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
-        crossorigin="anonymous"></script>
-
-    <script>
-        // Load data from the server
-        axios.get('http://localhost:3000/budget')
-            .then(response => {
-                const budgetData = response.data.myBudget;
-
-                // Chart.js initialization
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: budgetData.map(item => item.title),
-                        datasets: [{
-                            data: budgetData.map(item => item.budget),
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.7)',
-                                'rgba(255, 205, 86, 0.7)',
-                                'rgba(54, 162, 235, 0.7)',
-                                'rgba(255, 159, 64, 0.7)',
-                                'rgba(153, 102, 255, 0.7)',
-                                'rgba(75, 192, 192, 0.7)',
-                                'rgba(255, 99, 132, 0.7)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(255, 205, 86, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(255, 99, 132, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
+            // Chart.js initialization
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: budgetData.map(item => item.title),
+                    datasets: [{
+                        data: budgetData.map(item => item.budget),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 205, 86, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             });
-    </script>
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script>
 
 </body>
-
 </html>
