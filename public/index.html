@@ -219,7 +219,7 @@
 </section>
 
 <!-- Additional D3.js script -->
-<script src="http://d3js.org/d3.v7.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
     // Load data from the server using D3.js
@@ -261,7 +261,7 @@
         svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
         var key = function (d) {
-            return d.data.title;
+            return d.title;
         };
 
         var color = d3.scaleOrdinal()
@@ -294,6 +294,7 @@
         change(data.myBudget);
     });
 </script>
+
 
 
 <!-- A11y Change: Added role attribute for better accessibility -->
