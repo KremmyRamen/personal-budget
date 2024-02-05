@@ -220,75 +220,89 @@
 
 <!-- Additional D3.js script -->
 <script src="http://d3js.org/d3.v7.min.js"></script>
+<!-- Additional Chart.js and Axios scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
 
 <script>
+    // Function to create D3.js chart
+    function createD3Chart(data) {
+        var svg = d3.select("body")
+            .append("svg")
+            .append("g");
+
+        svg.append("g")
+            .attr("class", "slices");
+        svg.append("g")
+            .attr("class", "labels");
+        svg.append("g")
+            .attr("class", "lines");
+
+        var width = 960,
+            height = 450,
+            radius = Math.min(width, height) / 2;
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(function (d) {
+                return d.budget;
+            });
+
+        var arc = d3.arc()
+            .outerRadius(radius * 0.8)
+            .innerRadius(radius * 0.4);
+
+        var outerArc = d3.arc()
+            .innerRadius(radius * 0.9)
+            .outerRadius(radius * 0.9);
+
+        svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var key = function (d) {
+            return d.data.title;
+        };
+
+        var color = d3.scaleOrdinal()
+            .domain(data.map(function (d) {
+                return d.title;
+            }))
+            .range(d3.schemeCategory10);
+
+        function change(data) {
+            var slice = svg.select(".slices").selectAll("path.slice")
+                .data(pie(data), key);
+
+            slice.enter()
+                .insert("path")
+                .style("fill", function (d) {
+                    return color(d.data.title);
+                })
+                .attr("class", "slice");
+
+            slice.transition().duration(1000)
+                .attrTween("d", function (d) {
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function (t) {
+                        return arc(interpolate(t));
+                    };
+                });
+
+            slice.exit().remove();
+        }
+
+        // Call the change function with the loaded data
+        change(data);
+    }
+
     // Load data from the server using Axios
     axios.get('http://localhost:3000/budget')
         .then(response => {
             const budgetData = response.data.myBudget;
 
-            // D3.js chart initialization
-            var svg = d3.select("body")
-                .append("svg")
-                .append("g");
-
-            svg.append("g")
-                .attr("class", "slices");
-            svg.append("g")
-                .attr("class", "labels");
-            svg.append("g")
-                .attr("class", "lines");
-
-            var width = 960,
-                height = 450,
-                radius = Math.min(width, height) / 2;
-
-            var pie = d3.pie()
-                .sort(null)
-                .value(function (d) {
-                    return d.budget;
-                });
-
-            var arc = d3.arc()
-                .outerRadius(radius * 0.8)
-                .innerRadius(radius * 0.4);
-
-            var outerArc = d3.arc()
-                .innerRadius(radius * 0.9)
-                .outerRadius(radius * 0.9);
-
-            svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-            var key = function (d) { return d.data.title; };
-
-            var color = d3.scaleOrdinal()
-                .domain(budgetData.map(item => item.title))
-                .range(d3.schemeCategory10);
-
-            function change(data) {
-                var slice = svg.select(".slices").selectAll("path.slice")
-                    .data(pie(data), key);
-
-                slice.enter()
-                    .insert("path")
-                    .style("fill", function (d) { return color(d.data.title); })
-                    .attr("class", "slice");
-
-                slice.transition().duration(1000)
-                    .attrTween("d", function (d) {
-                        this._current = this._current || d;
-                        var interpolate = d3.interpolate(this._current, d);
-                        this._current = interpolate(0);
-                        return function (t) {
-                            return arc(interpolate(t));
-                        };
-                    });
-
-                slice.exit().remove();
-            }
-
-            // Call change function with loaded data
-            change(budgetData);
+            // Call the D3.js chart creation function
+            createD3Chart(budgetData);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
