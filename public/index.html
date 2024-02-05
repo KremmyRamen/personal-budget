@@ -222,48 +222,79 @@
 <script src="http://d3js.org/d3.v7.min.js"></script>
 
 <script>
-    // Sample data for D3.js chart
-    const d3ChartData = [
-        { category: 'Category A', value: 30 },
-        { category: 'Category B', value: 50 },
-        { category: 'Category C', value: 20 },
-    ];
+    // Load data from the server using D3.js
+    d3.json('http://localhost:3000/budget', function (error, data) {
+        if (error) {
+            console.error('Error fetching data:', error);
+            return;
+        }
 
-    // D3.js Bar Chart
-    const svgWidth = 400;
-    const svgHeight = 200;
+        var svg = d3.select("body")
+            .append("svg")
+            .append("g");
 
-    const svg = d3.select('#d3Chart')
-        .attr('width', svgWidth)
-        .attr('height', svgHeight);
+        svg.append("g")
+            .attr("class", "slices");
+        svg.append("g")
+            .attr("class", "labels");
+        svg.append("g")
+            .attr("class", "lines");
 
-    const xScale = d3.scaleBand()
-        .domain(d3ChartData.map(d => d.category))
-        .range([0, svgWidth])
-        .padding(0.2);
+        var width = 960,
+            height = 450,
+            radius = Math.min(width, height) / 2;
 
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(d3ChartData, d => d.value)])
-        .range([svgHeight, 0]);
+        var pie = d3.pie()
+            .sort(null)
+            .value(function (d) {
+                return d.budget;
+            });
 
-    svg.selectAll('rect')
-        .data(d3ChartData)
-        .enter()
-        .append('rect')
-        .attr('x', d => xScale(d.category))
-        .attr('y', d => yScale(d.value))
-        .attr('width', xScale.bandwidth())
-        .attr('height', d => svgHeight - yScale(d.value))
-        .attr('fill', 'steelblue');
+        var arc = d3.arc()
+            .outerRadius(radius * 0.8)
+            .innerRadius(radius * 0.4);
 
-    // Add X and Y axis
-    svg.append('g')
-        .attr('transform', `translate(0, ${svgHeight})`)
-        .call(d3.axisBottom(xScale));
+        var outerArc = d3.arc()
+            .innerRadius(radius * 0.9)
+            .outerRadius(radius * 0.9);
 
-    svg.append('g')
-        .call(d3.axisLeft(yScale));
+        svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var key = function (d) {
+            return d.data.title;
+        };
+
+        var color = d3.scaleOrdinal()
+            .domain(data.myBudget.map(function (d) { return d.title; }))
+            .range(d3.schemeCategory10);
+
+        function change(data) {
+            var slice = svg.select(".slices").selectAll("path.slice")
+                .data(pie(data), key);
+
+            slice.enter()
+                .insert("path")
+                .style("fill", function (d) { return color(d.data.title); })
+                .attr("class", "slice");
+
+            slice.transition().duration(1000)
+                .attrTween("d", function (d) {
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function (t) {
+                        return arc(interpolate(t));
+                    };
+                });
+
+            slice.exit().remove();
+        }
+
+        // Call change function with loaded data
+        change(data.myBudget);
+    });
 </script>
+
 
 <!-- A11y Change: Added role attribute for better accessibility -->
 <footer class="bottom" role="contentinfo">
