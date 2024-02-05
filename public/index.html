@@ -164,9 +164,14 @@
         .then(response => {
             const budgetData = response.data.myBudget;
 
+            // Destroy existing Chart.js instance if it exists
+            if (window.myChart) {
+                window.myChart.destroy();
+            }
+
             // Chart.js initialization
             var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
+            window.myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
                     labels: budgetData.map(item => item.title),
@@ -198,6 +203,9 @@
                     maintainAspectRatio: false
                 }
             });
+
+            // Continue with the D3.js chart code
+            // ...
         })
         .catch(error => {
             console.error('Error fetching data:', error);
