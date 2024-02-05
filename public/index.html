@@ -172,20 +172,6 @@
                     <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
                 </p>
             </article>
-
-            <!-- Additional D3.js Chart -->
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>D3.js Chart</h1>
-                    </header>
-                </header>
-                <p>
-                    <!-- A11y Change: Added alt text for better accessibility -->
-                    <svg></svg>
-                </p>
-            </article>
         </div>
     </div>
 </main>
@@ -204,76 +190,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
 
 <script>
-    var svg = d3.select("body")
-        .append("svg")
-        .append("g");
-
-    svg.append("g")
-        .attr("class", "slices");
-    svg.append("g")
-        .attr("class", "labels");
-    svg.append("g")
-        .attr("class", "lines");
-
-    var width = 960,
-        height = 450,
-        radius = Math.min(width, height) / 2;
-
-    var pie = d3.layout.pie()
-        .sort(null)
-        .value(function(d) {
-            return d.budget; 
-        });
-
-    var arc = d3.svg.arc()
-        .outerRadius(radius * 0.8)
-        .innerRadius(radius * 0.4);
-
-    var outerArc = d3.svg.arc()
-        .innerRadius(radius * 0.9)
-        .outerRadius(radius * 0.9);
-
-    svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    var key = function(d) { return d.data.title; };
-
-    var color = d3.scale.ordinal()
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    // Fetch data from the server using Axios
-    axios.get('http://localhost:3000/budget')
-        .then(function (response) {
-            var data = response.data.myBudget;
-            console.log(data); // Log the data to the console
-            change(data);
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-
-    function change(data) {
-        var slice = svg.select(".slices").selectAll("path.slice")
-            .data(pie(data), key);
-
-        slice.enter()
-            .insert("path")
-            .style("fill", function(d) { return color(d.data.title); })
-            .attr("class", "slice");
-
-        slice.transition().duration(1000)
-            .attrTween("d", function(d) {
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                    return arc(interpolate(t));
-                };
-            });
-
-        slice.exit().remove();
-    }
+    // Your existing D3.js script without the new chart
 </script>
-
-
 </body>
 </html>
