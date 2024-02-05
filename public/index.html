@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="text-size-adjust" content="100%">
     <title>Personal Budget</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
@@ -219,7 +220,7 @@
 </section>
 
 <!-- Additional D3.js script -->
-<script src="http://d3js.org/d3.v7.min.js?v=1.0"></script>
+<script src="https://d3js.org/d3.v7.min.js?v=1.0"></script>
 <!-- Additional Chart.js and Axios scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
@@ -296,17 +297,16 @@
         change(data);
     }
 
-    // Load data from the server using Axios
-    axios.get('http://localhost:3000/budget')
-        .then(response => {
-            const budgetData = response.data.myBudget;
+// Load data from the server using D3.js
+d3.json('http://localhost:3000/budget')
+    .then(data => {
+        // Call the D3.js chart creation function
+        createD3Chart(data.myBudget);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 
-            // Call the D3.js chart creation function
-            createD3Chart(budgetData);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
 </script>
 
 
