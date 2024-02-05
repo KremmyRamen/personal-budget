@@ -222,48 +222,86 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
-    // Sample data for D3.js chart
-    const d3ChartData = [
-        { category: 'Category A', value: 30 },
-        { category: 'Category B', value: 50 },
-        { category: 'Category C', value: 20 },
-    ];
+    // Load data from the server
+    axios.get('http://localhost:3000/budget')
+        .then(response => {
+            const budgetData = response.data.myBudget;
 
-    // D3.js Bar Chart
-    const svgWidth = 400;
-    const svgHeight = 200;
+            // Chart.js initialization
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: budgetData.map(item => item.title),
+                    datasets: [{
+                        data: budgetData.map(item => item.budget),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 205, 86, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
 
-    const svg = d3.select('#d3Chart')
-        .attr('width', svgWidth)
-        .attr('height', svgHeight);
+            // D3.js Bar Chart
+            const svgWidth = 400;
+            const svgHeight = 200;
 
-    const xScale = d3.scaleBand()
-        .domain(d3ChartData.map(d => d.category))
-        .range([0, svgWidth])
-        .padding(0.2);
+            const svg = d3.select('#d3Chart')
+                .attr('width', svgWidth)
+                .attr('height', svgHeight);
 
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(d3ChartData, d => d.value)])
-        .range([svgHeight, 0]);
+            const xScale = d3.scaleBand()
+                .domain(budgetData.map(d => d.title))
+                .range([0, svgWidth])
+                .padding(0.2);
 
-    svg.selectAll('rect')
-        .data(d3ChartData)
-        .enter()
-        .append('rect')
-        .attr('x', d => xScale(d.category))
-        .attr('y', d => yScale(d.value))
-        .attr('width', xScale.bandwidth())
-        .attr('height', d => svgHeight - yScale(d.value))
-        .attr('fill', 'steelblue');
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(budgetData, d => d.budget)])
+                .range([svgHeight, 0]);
 
-    // Add X and Y axis
-    svg.append('g')
-        .attr('transform', `translate(0, ${svgHeight})`)
-        .call(d3.axisBottom(xScale));
+            svg.selectAll('rect')
+                .data(budgetData)
+                .enter()
+                .append('rect')
+                .attr('x', d => xScale(d.title))
+                .attr('y', d => yScale(d.budget))
+                .attr('width', xScale.bandwidth())
+                .attr('height', d => svgHeight - yScale(d.budget))
+                .attr('fill', 'steelblue');
 
-    svg.append('g')
-        .call(d3.axisLeft(yScale));
+            // Add X and Y axis
+            svg.append('g')
+                .attr('transform', `translate(0, ${svgHeight})`)
+                .call(d3.axisBottom(xScale));
+
+            svg.append('g')
+                .call(d3.axisLeft(yScale));
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 </script>
+
 
 <!-- A11y Change: Added role attribute for better accessibility -->
 <footer class="bottom" role="contentinfo">
