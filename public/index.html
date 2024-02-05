@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="text-size-adjust" content="100%">
     <title>Personal Budget</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
@@ -220,95 +219,51 @@
 </section>
 
 <!-- Additional D3.js script -->
-<script src="https://d3js.org/d3.v7.min.js?v=1.0"></script>
-<!-- Additional Chart.js and Axios scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
-    // Function to create D3.js chart
-    function createD3Chart(data) {
-        var svg = d3.select("body")
-            .append("svg")
-            .append("g");
+    // Sample data for D3.js chart
+    const d3ChartData = [
+        { category: 'Category A', value: 30 },
+        { category: 'Category B', value: 50 },
+        { category: 'Category C', value: 20 },
+    ];
 
-        svg.append("g")
-            .attr("class", "slices");
-        svg.append("g")
-            .attr("class", "labels");
-        svg.append("g")
-            .attr("class", "lines");
+    // D3.js Bar Chart
+    const svgWidth = 400;
+    const svgHeight = 200;
 
-        var width = 960,
-            height = 450,
-            radius = Math.min(width, height) / 2;
+    const svg = d3.select('#d3Chart')
+        .attr('width', svgWidth)
+        .attr('height', svgHeight);
 
-        var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
-                return d.budget;
-            });
+    const xScale = d3.scaleBand()
+        .domain(d3ChartData.map(d => d.category))
+        .range([0, svgWidth])
+        .padding(0.2);
 
-        var arc = d3.arc()
-            .outerRadius(radius * 0.8)
-            .innerRadius(radius * 0.4);
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(d3ChartData, d => d.value)])
+        .range([svgHeight, 0]);
 
-        var outerArc = d3.arc()
-            .innerRadius(radius * 0.9)
-            .outerRadius(radius * 0.9);
+    svg.selectAll('rect')
+        .data(d3ChartData)
+        .enter()
+        .append('rect')
+        .attr('x', d => xScale(d.category))
+        .attr('y', d => yScale(d.value))
+        .attr('width', xScale.bandwidth())
+        .attr('height', d => svgHeight - yScale(d.value))
+        .attr('fill', 'steelblue');
 
-        svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    // Add X and Y axis
+    svg.append('g')
+        .attr('transform', `translate(0, ${svgHeight})`)
+        .call(d3.axisBottom(xScale));
 
-        var key = function (d) {
-            return d.data.title;
-        };
-
-        var color = d3.scaleOrdinal()
-            .domain(data.map(function (d) {
-                return d.title;
-            }))
-            .range(d3.schemeCategory10);
-
-        function change(data) {
-            var slice = svg.select(".slices").selectAll("path.slice")
-                .data(pie(data), key);
-
-            slice.enter()
-                .insert("path")
-                .style("fill", function (d) {
-                    return color(d.data.title);
-                })
-                .attr("class", "slice");
-
-            slice.transition().duration(1000)
-                .attrTween("d", function (d) {
-                    this._current = this._current || d;
-                    var interpolate = d3.interpolate(this._current, d);
-                    this._current = interpolate(0);
-                    return function (t) {
-                        return arc(interpolate(t));
-                    };
-                });
-
-            slice.exit().remove();
-        }
-
-        // Call the change function with the loaded data
-        change(data);
-    }
-
-// Load data from the server using D3.js
-d3.json('http://localhost:3000/budget')
-    .then(data => {
-        // Call the D3.js chart creation function
-        createD3Chart(data.myBudget);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
+    svg.append('g')
+        .call(d3.axisLeft(yScale));
 </script>
-
 
 <!-- A11y Change: Added role attribute for better accessibility -->
 <footer class="bottom" role="contentinfo">
