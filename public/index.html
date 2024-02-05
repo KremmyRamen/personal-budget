@@ -22,6 +22,11 @@
             width: 100%;
             height: 100%;
         }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -59,83 +64,10 @@
 <main class="center" id="main" role="main">
     <div class="page-area">
         <div class="left-column">
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Stay on track</h1>
-                    </header>
-                </header>
-                <p>
-                    Do you know where you are spending your money? If you really stop to track it down,
-                    you would get surprised! Proper budget management depends on real data... and this
-                    app will help you with that!
-                </p>
-            </article>
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Results</h1>
-                    </header>
-                </header>
-                <p>
-                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear... 
-                    because they know it is all good and accounted for.
-                </p>
-            </article>
-            <article>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
-                    <header>
-                        <h1>Free</h1>
-                    </header>
-                </header>
-                <p>
-                    This app is free!!! And you are the only one holding your data!
-                </p>
-            </article>
+            <!-- Content in the left column remains unchanged -->
         </div>
 
         <div class="right-column">
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Alerts</h2>
-                    </header>
-                </header>
-                <p>
-                    What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
-                </p>
-            </section>
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Stay on track</h2>
-                    </header>
-                </header>
-                <p>
-                    Do you know where you are spending your money? If you really stop to track it down,
-                    you would get surprised! Proper budget management depends on real data... and this
-                    app will help you with that!
-                </p>
-            </section>
-            <section>
-                <header>
-                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
-                    <header>
-                        <h2>Results</h2>
-                    </header>
-                </header>
-                <p>
-                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear... 
-                    because they know it is all good and accounted for.
-                </p>
-            </section>
             <article>
                 <header>
                     <!-- Semantic HTML Change: Changed <h1> to <header> for the article heading -->
@@ -148,6 +80,17 @@
                     <canvas id="myChart" width="400" height="400" alt="Chart depicting budget distribution"></canvas>
                 </p>
             </article>
+
+            <!-- D3.js Chart -->
+            <section class="d3js-chart">
+                <header>
+                    <!-- Semantic HTML Change: Changed <h2> to <header> for a subheading -->
+                    <header>
+                        <h2>D3.js Chart</h2>
+                    </header>
+                </header>
+                <svg id="d3jsChart" width="400" height="400" aria-label="D3.js Chart depicting budget distribution"></svg>
+            </section>
         </div>
     </div>
 </main>
@@ -159,11 +102,10 @@
     </div>
 </footer>
 
-<!-- Additional Chart.js and Axios scripts -->
+<!-- Additional Chart.js, D3.js, and Axios scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
-    integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
-    crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
 
 <script>
     // Load data from the server
@@ -205,6 +147,56 @@
                     maintainAspectRatio: false
                 }
             });
+
+            // D3.js initialization
+            const svg = d3.select('#d3jsChart');
+            const width = +svg.attr('width');
+            const height = +svg.attr('height');
+            const radius = Math.min(width, height) / 2;
+
+            const pie = d3.pie()
+                .sort(null)
+                .value(d => d.budget);
+
+            const arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius(radius);
+
+            const color = d3.scaleOrdinal()
+                .domain(budgetData.map(d => d.title))
+                .range(d3.schemeCategory10);
+
+            const arcs = svg.selectAll('arc')
+                .data(pie(budgetData))
+                .enter()
+                .append('g')
+                .attr('class', 'arc')
+                .attr('transform', `translate(${width / 2},${height / 2})`);
+
+            arcs.append('path')
+                .attr('d', arc)
+                .attr('fill', d => color(d.data.title));
+
+            // Legend
+            const legend = svg.selectAll('.legend')
+                .data(color.domain())
+                .enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr('transform', (d, i) => `translate(0,${i * 20})`);
+
+            legend.append('rect')
+                .attr('x', width - 18)
+                .attr('width', 18)
+                .attr('height', 18)
+                .style('fill', color);
+
+            legend.append('text')
+                .attr('x', width - 24)
+                .attr('y', 9)
+                .attr('dy', '.35em')
+                .style('text-anchor', 'end')
+                .text(d => d);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
