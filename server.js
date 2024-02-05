@@ -7,7 +7,7 @@ const fs = require('fs');
 app.use(cors());
 
 // Read data from the JSON file
-const rawData = fs.readFileSync('test.json');
+const rawData = fs.readFileSync('new.json');
 const budget = JSON.parse(rawData);
 
 app.use('/', express.static('public'));
