@@ -158,59 +158,57 @@
     integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
     crossorigin="anonymous"></script>
 
-<script>
-    // Load data from the server
-    axios.get('http://localhost:3000/budget')
-        .then(response => {
-            const budgetData = response.data.myBudget;
-
-            // Destroy existing Chart.js instance if it exists
-            if (window.myChart) {
-                window.myChart.destroy();
-            }
-
-            // Chart.js initialization
-            var ctx = document.getElementById('myChart').getContext('2d');
-            window.myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: budgetData.map(item => item.title),
-                    datasets: [{
-                        data: budgetData.map(item => item.budget),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(255, 205, 86, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(255, 99, 132, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(255, 205, 86, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
+    <script>
+        // Load data from the server
+        axios.get('http://localhost:3000/budget')
+            .then(response => {
+                // Directly use the response data, as it is the array you need
+                const budgetData = response.data;
+    
+                // Check if myChart exists and is a Chart instance before destroying
+                if (window.myChart && window.myChart instanceof Chart) {
+                    window.myChart.destroy();
                 }
+    
+                // Chart.js initialization
+                var ctx = document.getElementById('myChart').getContext('2d');
+                window.myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: budgetData.map(item => item.title),
+                        datasets: [{
+                            data: budgetData.map(item => item.budget),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 205, 86, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 159, 64, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(255, 99, 132, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
             });
-
-            // Continue with the D3.js chart code
-            // ...
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-</script>
+    </script>
 
 <!-- D3.js Chart Section -->
 <section>
@@ -230,45 +228,11 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
-    // Load data from the server
+    // Load data from the server for D3.js
     axios.get('http://localhost:3000/budget')
         .then(response => {
-            const budgetData = response.data.myBudget;
-
-            // Chart.js initialization
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: budgetData.map(item => item.title),
-                    datasets: [{
-                        data: budgetData.map(item => item.budget),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(255, 205, 86, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(255, 99, 132, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(255, 205, 86, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+            // Since the response data is an array, directly use it
+            const budgetData = response.data;
 
             // D3.js Bar Chart
             const svgWidth = 400;
@@ -306,7 +270,7 @@
                 .call(d3.axisLeft(yScale));
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data for D3.js:', error);
         });
 </script>
 
